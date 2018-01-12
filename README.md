@@ -1,6 +1,6 @@
 # property-map
 
-## Two static methods.
+## Multiple property files values to HashMap<String, String>
 
 ### Read all properties key-values which are located under System.getProperty("user.dir") and sub-folders & put them in one ReferenceMap<String, String>
 
