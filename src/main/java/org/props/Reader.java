@@ -1,4 +1,4 @@
-package org.pm;
+package org.props;
 
 import org.apache.commons.collections4.map.ReferenceMap;
 import org.apache.commons.io.FileUtils;
@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Properties;
 
-public final class Props {
+public final class Reader {
 
     private static Map<Object, Object> cache = new ReferenceMap<>();
 
@@ -48,7 +48,7 @@ public final class Props {
         }
     }
 
-    private Props() {
+    private Reader() {
 
     }
 }
