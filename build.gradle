@@ -14,7 +14,18 @@ repositories {
     // Use jcenter for resolving your dependencies.
     // You can declare any Maven/Ivy/file repository here.
     jcenter()
+}
 
+// create a single Jar with all dependencies
+task fatJar(type: Jar) {
+	manifest {
+        attributes 'Implementation-Title': 'propery-map',
+        			'Implementation-Version': 1.0
+    }
+    baseName = project.name
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
 
 dependencies {
     compile 'commons-io:commons-io:2.5'

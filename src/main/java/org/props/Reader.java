@@ -18,13 +18,13 @@ public final class Reader {
         if (cache.get(name) == null) {
             refresh("");
         }
-        return (String) cache.get(name);
+        return (String) cache.getOrDefault(name, "");
     }
 
     public static final String property(String name, String filename) {
         cache.clear();
         refresh(filename);
-        return (String) cache.get(name);
+        return (String) cache.getOrDefault(name, "");
     }
 
     private static void refresh(String filename) {
