@@ -30,20 +30,23 @@ public final class Reader {
     private static void refresh(String filename) {
         Collection<File> files = FileUtils.listFiles(new File(System.getProperty("user.dir")),
                 new String[] {"properties"}, true);
+
         for (File file : files) {
+            
             if (!filename.isEmpty() && !filename.equals(file.getName())) {
                 continue;
             }
+            
             if (file.exists()) {
+                
                 Properties props = new Properties();
                 try {
                     props.load(new FileInputStream(file));
                 } catch (IOException e) {
                     continue; // skip current iteration
                 }
-                for (Map.Entry<Object, Object> entry : props.entrySet()) {
-                    cache.put(entry.getKey(), entry.getValue());
-                }
+
+                props.entrySet().stream().forEach(e -> cache.put(e.getKey(), e.getValue()));
             }
         }
     }
