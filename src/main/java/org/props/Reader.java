@@ -9,10 +9,13 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public final class Reader {
 
     private static Map<Object, Object> cache = new ReferenceMap<>();
+    private static Logger logger = Logger.getLogger(Reader.class.getName());
 
     public static final String property(String name) {
         if (cache.get(name) == null) {
@@ -28,27 +31,24 @@ public final class Reader {
     }
 
     private static void refresh(String filename) {
+
         Collection<File> files = FileUtils.listFiles(new File(System.getProperty("user.dir")),
                 new String[] {"properties"}, true);
 
-        for (File file : files) {
-            
-            if (!filename.isEmpty() && !filename.equals(file.getName())) {
-                continue;
-            }
-            
-            if (file.exists()) {
-                
-                Properties props = new Properties();
-                try {
-                    props.load(new FileInputStream(file));
-                } catch (IOException e) {
-                    continue; // skip current iteration
-                }
+        files.stream()        
+                .filter(file -> file.getName().contains(filename))
+                .filter(File::exists)
+                .forEach(file -> {
 
-                props.entrySet().stream().forEach(e -> cache.put(e.getKey(), e.getValue()));
-            }
-        }
+                    Properties props = new Properties();
+                    try {
+                        props.load(new FileInputStream(file));
+                    } catch (IOException e) {
+                        logger.log(Level.SEVERE, "Exception in Reader.refresh()", e);
+                    }
+                    props.entrySet().stream().forEach(e -> cache.put(e.getKey(), e.getValue()));
+
+                });
     }
 
     private Reader() {

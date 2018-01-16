@@ -8,8 +8,8 @@ import org.props.Reader;
 public class PropsTest {
     @Test public void testSomeLibraryMethod() {
        
-        System.out.println(Reader.property("hello"));
         System.out.println(Reader.property("hello", "smoke.properties"));
+        System.out.println(Reader.property("hello", "smoke2.properties"));
     
     }
 }
